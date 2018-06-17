@@ -76,6 +76,9 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -111,6 +114,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="IntSet.cpp" />
+    <ClCompile Include="IntSetArray.cpp" />
+    <ClCompile Include="IntSetBins.cpp" />
+    <ClCompile Include="IntSetBitVec.cpp" />
+    <ClCompile Include="IntSetBST.cpp" />
+    <ClCompile Include="IntSetList.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="util_func.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="util_func.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
