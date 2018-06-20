@@ -39,7 +39,7 @@ private:
 		if (node == NULL) return newNode(key);
 
 		/* Otherwise, recur down the tree */
-		if (key < node->key)
+		if (key <= node->key)
 			node->left = bst_insert(node->left, key);
 		else if (key > node->key)
 			node->right = bst_insert(node->right, key);
