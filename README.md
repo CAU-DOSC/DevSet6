@@ -10,7 +10,7 @@ https://github.com/CAU-DOSC/DevSet1
 * 20145014 안재홍
 * 20140490 이동규
 * 20165167 이서현
-* 20146824 신형철  
+* 20146824 이성준
 
 ### 작업 할당
 | 이름 | 역할 |
@@ -19,7 +19,7 @@ https://github.com/CAU-DOSC/DevSet1
 | 안재홍 |  |
 | 이동규 | BST Insert 범위 수정, BST Unit Test |
 | 이서현 |  |
-| 신형철 |  |
+| 이성준 |  |
 
 ### 특이사항
-*
+* 
