@@ -17,9 +17,9 @@ https://github.com/CAU-DOSC/DevSet1
 |------|------|
 | 변정규 | Array, List, BST, BitVec, Bins 초기 구현|
 | 안재홍 |  |
-| 이동규 |  |
+| 이동규 | BST Insert 범위 수정, BST Unit Test |
 | 이서현 |  |
 | 신형철 |  |
 
 ### 특이사항
-* 
+*
