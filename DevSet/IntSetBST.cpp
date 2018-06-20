@@ -39,7 +39,7 @@ private:
 		if (node == NULL) return newNode(key);
 
 		/* Otherwise, recur down the tree */
-		if (key < node->key)
+		if (key <= node->key)
 			node->left = bst_insert(node->left, key);
 		else if (key > node->key)
 			node->right = bst_insert(node->right, key);
@@ -57,18 +57,14 @@ public:
 		root = NULL;
 		n = 0;
 	}
-
 	int size() { return n; }
-
 	void insert(int num) {
 		root = bst_insert(root, num);
 		n++;
 	}
-
 	void report(int *v) {
 		int *i = new int;
 		*i = 0;
 		bst_inorder(root, v, i);
 	}
-
 };

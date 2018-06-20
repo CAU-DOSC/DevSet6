@@ -29,14 +29,15 @@ int main(void) {
 	for (int i = 0; i < max_e; i++)
 		if (!(i % 100)) std::cout << v[i] << "\n";
 	*/
-	/*
+	
 	//code for IntSetBST
 	IntSetBST S(max_e, max_v);
 	while (S.size() < max_e)	S.insert(bigrand(max_v));
 	S.report(v);
 	for (int i = 0; i < max_e; i++)
 		if (!(i % 100)) std::cout << v[i] << "\n";
-	*/
+	int a;
+	std::cin >> a;
 	/*	
 	//code for IntSetBitVec
 	IntSetBitVec S(max_e, max_v);
