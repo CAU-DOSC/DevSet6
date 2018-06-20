@@ -57,18 +57,14 @@ public:
 		root = NULL;
 		n = 0;
 	}
-
 	int size() { return n; }
-
 	void insert(int num) {
 		root = bst_insert(root, num);
 		n++;
 	}
-
 	void report(int *v) {
 		int *i = new int;
 		*i = 0;
 		bst_inorder(root, v, i);
 	}
-
 };
