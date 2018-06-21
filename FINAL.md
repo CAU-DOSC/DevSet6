@@ -1,7 +1,8 @@
 # DevSet06
 -------------
 ##IntSetArray
-**1. Sorting**
+###1. Sorting
+
 기존의 Array에 for loop 을 이용하여 값을 추가할 경우에 Insert 시 매번 값의 중복여부를 
 체크하고, 값이 들어갈 위치를 찾고 더나아가 Shifting 을 하는 경우가 빈번히 발생한다. 
 이는 결과적으로 time complexity(시간 복잡도)의 증가를 유도하고 실제 execution time
@@ -50,13 +51,13 @@ void report(int *v) {
 max_value) 만큼 for loop 을 통해 배열을 훑어 가면서 값이 true 일 경우에 배열 v 에 값을
 하나씩 넣어주는 과정으로 진행한다.
 
-**2. Algorithm Test**
+###2. Algorithm Test
 
 ![default](/img/UnitTestArray.png)
 
 알고리즘의 유효성 테스트는 다음과 같이 크게 두가지 부분으로 나누어 진행하였다.
 
-**1) Insert Time Test**
+####1) Insert Time Test
 오름차순, 내림차순, 랜덤 값을 Insert 하는 방식으로 테스트를 진행하였다.
 
 ```
@@ -90,7 +91,7 @@ TEST_METHOD(Array_Insert_Rand)
 }
 ```
 
-**2) Sorting Correct**
+###2) Sorting Correct
 
 제대로 값들이 sort 되는지 알아보기 위하여 다음과 같이 테스트를 진행하였다.
 기대값을 저장하는 expect 배열을 별도로 만들어서 같은 값을 insert 하고 C 에서 기본 
@@ -180,33 +181,37 @@ TEST_METHOD(Array_Report_Rand)
 배열 expect 와 v 를 Sorting 한 후에는 for loop 을 이용하여 서로의 값을 비교한다. 이 과정에서 
 값이 다를 경우 for loop 을 break 로 종료하게 된다.
 
-##IntSetBST
-**1. Sorting**
-![default](https://user-images.githubusercontent.com/34343170/41650795-d83ad2de-74b9-11e8-9488-b36ec00595b9.PNG)
+## IntSetBST  
+
+### 1. Sorting  
+
+![default](https://user-images.githubusercontent.com/34343170/41650795-d83ad2de-74b9-11e8-9488-b36ec00595b9.PNG)  
 BST로 정렬하는 것은 Tree를 만드는 것과 같다. Tree를 만들면서 데이터를 정렬하기 때문이다.  
-위 그림과 같이 키 값과 같거나 보다 작으면 Left Child를 만들고 반대라면 Right Child를 만들며 정렬한다.  
-![default](https://user-images.githubusercontent.com/34343170/41651060-943c2834-74ba-11e8-9d55-3491f35e7905.PNG)
+위 그림과 같이 키 값과 같거나 보다 작으면 Left Child를 만들고 반대라면 Right Child를 만들며 정렬한다.   
+![default](https://user-images.githubusercontent.com/34343170/41651060-943c2834-74ba-11e8-9d55-3491f35e7905.PNG)  
 이후 출력할 때는 inorder로 트리를 순회하여 배열에 값을 오름차순으로 입력하였다.  
 
-**2. Algorithm Test**
-![default](https://user-images.githubusercontent.com/34343170/41651348-5160ecce-74bb-11e8-9e9f-81d6c1b7e5aa.PNG)
-테스트는 크게 2가지로 나누어 하였다.
+### 2. Algorithm Test  
+
+![default](https://user-images.githubusercontent.com/34343170/41651348-5160ecce-74bb-11e8-9e9f-81d6c1b7e5aa.PNG)  
+테스트는 크게 2가지로 나누어 하였다.  
 첫 번째는 Tree를 구현하는 데 걸리는 시간을 측정하였고 두 번째는 정렬된 값이 정확한지 체크하였다.  
 
- **1) Insert Time Test**
-![default](https://user-images.githubusercontent.com/34343170/41651504-afbec016-74bb-11e8-92f8-95d91c3717b4.PNG)
-Tree에 Key들을 Insert하는 시간을 검증하는 코드이다. 각각 Worst Case로 내림차순 된 Input, 오름차순 된 Input, 일반적인 Random Input을 가지고 테스트하였다. 결과는 내림차순,오름차순으로 정렬되있는 Input을 받으면 약 1초의 시간이 걸린다. 왜냐하면 Tree를 구현하는 데 한 쪽으로만(Left,Right) Tree가 생성되기 때문에 Tree의 높이가 입력개수인 n이 되기 때문이다. 그렇다면 한 개의 Key Node를 생성하기 위해서 n개의 Node를 전부 확인해봐야한다. 반면에 Random Input을 넣어주는 경우에는 적절하게 배분이 된다면 log(n)만큼만 검사하면 되어 훨씬 빠르다. 이는 n의 값이 커질 수 록 더욱 확연한 차이를 확인 할 수 있다.
+#### 1) Insert Time Test  
 
- **2) Sorting Correct**
-![default](https://user-images.githubusercontent.com/34343170/41651927-c1532906-74bc-11e8-9c85-68f21819678c.PNG)
-내림차순으로 정렬된 Input을 받았을 경우 정확히 정렬하는 지 테스트한 코드이다. expect 배열에 기댓값을 넣었고 정렬하면서 다른 부분이 있으면 result_equal을 false로 만들고 결과 AreEqual메소드로 true인지 검사하였다.
-![default](https://user-images.githubusercontent.com/34343170/41653299-94bfc738-74c0-11e8-8cfe-6c0e1ce4d98f.PNG)
-오름차순으로 진행된 Input이다. 위와 동일하게 진행된다.
-![default](https://user-images.githubusercontent.com/34343170/41653328-b0230468-74c0-11e8-88ad-81d5e565b5b8.PNG)
-Random Input을 정렬하는 코드이다. 기댓값은 "Algorithm.h"에 선언되어있는 기본 sorting 메소드를 사용하여 정렬하였고 그 값과 일치하는지 검사하였다.
+![default](https://user-images.githubusercontent.com/34343170/41651504-afbec016-74bb-11e8-92f8-95d91c3717b4.PNG)  
+Tree에 Key들을 Insert하는 시간을 검증하는 코드이다. 각각 Worst Case로 내림차순 된 Input, 오름차순 된 Input, 일반적인 Random Input을 가지고 테스트하였다. 결과는 내림차순,오름차순으로 정렬되있는 Input을 받으면 약 1초의 시간이 걸린다. 왜냐하면 Tree를 구현하는 데 한 쪽으로만(Left,Right) Tree가 생성되기 때문에 Tree의 높이가 입력개수인 n이 되기 때문이다. 그렇다면 한 개의 Key Node를 생성하기 위해서 n개의 Node를 전부 확인해봐야한다. 반면에 Random Input을 넣어주는 경우에는 적절하게 배분이 된다면 log(n)만큼만 검사하면 되어 훨씬 빠르다. 이는 n의 값이 커질 수 록 더욱 확연한 차이를 확인 할 수 있다.  
 
-결과는 맨위의 사진에서 볼 수 있드시 성공하였다.
-=======
+#### 2) Sorting Correct  
+
+![default](https://user-images.githubusercontent.com/34343170/41651927-c1532906-74bc-11e8-9c85-68f21819678c.PNG)  
+내림차순으로 정렬된 Input을 받았을 경우 정확히 정렬하는 지 테스트한 코드이다. expect 배열에 기댓값을 넣었고 정렬하면서 다른 부분이 있으면 result_equal을 false로 만들고 결과 AreEqual메소드로 true인지 검사하였다.  
+![default](https://user-images.githubusercontent.com/34343170/41653299-94bfc738-74c0-11e8-8cfe-6c0e1ce4d98f.PNG)  
+오름차순으로 진행된 Input이다. 위와 동일하게 진행된다.  
+![default](https://user-images.githubusercontent.com/34343170/41653328-b0230468-74c0-11e8-88ad-81d5e565b5b8.PNG)  
+Random Input을 정렬하는 코드이다. 기댓값은 "Algorithm.h"에 선언되어있는 기본 sorting 메소드를 사용하여 정렬하였고 그 값과 일치하는지 검사하였다.  
+
+결과는 맨위의 사진에서 볼 수 있드시 성공하였다.  
 
 ## Bucket 테스트
 1>------ 모두 다시 빌드 시작: 프로젝트: DevSet, 구성: Debug Win32 ------

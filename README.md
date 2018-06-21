@@ -19,7 +19,7 @@ https://github.com/CAU-DOSC/DevSet1
 | 안재홍 | Array, List : Performance 개선 및 분석|
 | 이동규 | BST Insert 범위 수정, BST Unit Test |
 | 이서현 |  |
-| 이성준 |  |
+| 이성준 | Bucket sort Unit Test |
 
 ### 특이사항
 * 
