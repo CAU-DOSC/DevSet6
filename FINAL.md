@@ -1,8 +1,8 @@
 # DevSet06
 -------------
-##IntSetArray
+## IntSetArray
 
-###1. Sorting
+### 1. Sorting
 
 기존의 Array에 for loop 을 이용하여 값을 추가할 경우에 Insert 시 매번 값의 중복여부를 
 체크하고, 값이 들어갈 위치를 찾고 더나아가 Shifting 을 하는 경우가 빈번히 발생한다. 
@@ -52,13 +52,13 @@ void report(int *v) {
 max_value) 만큼 for loop 을 통해 배열을 훑어 가면서 값이 true 일 경우에 배열 v 에 값을
 하나씩 넣어주는 과정으로 진행한다.
 
-###2. Algorithm Test
+### 2. Algorithm Test
 
 ![default](/img/UnitTestArray.PNG)
 
 알고리즘의 유효성 테스트는 다음과 같이 크게 두가지 부분으로 나누어 진행하였다.
 
-####1) Insert Time Test
+#### 1) Insert Time Test
 
 오름차순, 내림차순, 랜덤 값을 Insert 하는 방식으로 테스트를 진행하였다.
 
@@ -93,7 +93,7 @@ TEST_METHOD(Array_Insert_Rand)
 }
 ```
 
-###2) Sorting Correct
+### 2) Sorting Correct
 
 제대로 값들이 sort 되는지 알아보기 위하여 다음과 같이 테스트를 진행하였다.
 기대값을 저장하는 expect 배열을 별도로 만들어서 같은 값을 insert 하고 C 에서 기본 
