@@ -1,6 +1,7 @@
 # DevSet06
 -------------
 ##IntSetArray
+
 ###1. Sorting
 
 기존의 Array에 for loop 을 이용하여 값을 추가할 경우에 Insert 시 매번 값의 중복여부를 
@@ -53,11 +54,12 @@ max_value) 만큼 for loop 을 통해 배열을 훑어 가면서 값이 true 일
 
 ###2. Algorithm Test
 
-![default](/img/UnitTestArray.png)
+![default](/img/UnitTestArray.PNG)
 
 알고리즘의 유효성 테스트는 다음과 같이 크게 두가지 부분으로 나누어 진행하였다.
 
 ####1) Insert Time Test
+
 오름차순, 내림차순, 랜덤 값을 Insert 하는 방식으로 테스트를 진행하였다.
 
 ```
@@ -180,6 +182,182 @@ TEST_METHOD(Array_Report_Rand)
 따로 만들어서 매번 값 입력시 중복 체크를 할 수 있도록 만들었다.
 배열 expect 와 v 를 Sorting 한 후에는 for loop 을 이용하여 서로의 값을 비교한다. 이 과정에서 
 값이 다를 경우 for loop 을 break 로 종료하게 된다.
+
+## IntSetList
+
+### 1. Sorting
+
+IntSetList 는 자료구조 Linked List 를 사용하여 구현하였다. 사용된 자료구조는 다음과 같다.
+
+```
+struct node {
+	int key;
+	struct node *next;
+};
+
+struct node *root;
+```
+
+Linked List 에서는 값을 insert 할 위치를 찾기 위해서 root node 부터 iterator 를 이용하여 
+순차적으로 값에 접근하여 insert 값과 값을 비교하여야 한다. 이 과정에서 소요되는 time 
+complexity 는 O(n^2) 이다. 반면에 space complexity 의 경우, insert 되는 값의 개수 n 만큼의 
+O(n) 만큼이 소요된다. 
+
+```
+void list_insert(int num) {
+	for (struct node *iter = root; iter; iter = iter->next) {
+		struct node *next_node = iter->next;
+		// find its position to add
+		if (!next_node || num < next_node->key) {
+			struct node *new_node = new struct node;
+			new_node->key = num;
+			iter->next = new_node;
+			new_node->next = next_node;
+			return;
+		}
+		// if num is in list
+		else if (next_node->key == num) {
+			n--;
+			return;
+		}
+	}
+}
+```
+기존 Linked List 에 있는 값을 sorting 하는 알고리즘은 다음과 같이 간단하다. 단순히 
+O(n) 만큼 iterator 를 통해 리스르틀 훑어 가면서 배열 v 에 값을 하나씩 넣어주는 과정으로 
+진행한다.
+
+### 2. Algorithm Test
+
+![default](/img/UnitTestList.PNG)
+
+알고리즘의 유효성 테스트는 다음과 같이 크게 두가지 부분으로 나누어 진행하였다.
+
+####1) Insert Time Test
+
+오름차순, 내림차순, 랜덤 값을 Insert 하는 방식으로 테스트를 진행하였다.
+
+```
+TEST_METHOD(List_Insert_Desc)
+{
+	// Inserting values in descending order
+	IntSetList test(max_e, max_v);
+	j = 0;
+	for (i = max_e - 1; i >= 0; i--) {
+		test.insert(max_v - j);
+		j++;
+	}
+}
+
+TEST_METHOD(List_Insert_Asce)
+{
+	// Inserting values in ascending order
+	IntSetList test(max_e, max_v);
+	for (i = 0; i < max_e; i++) {
+		test.insert(max_e + i);
+	}
+}
+
+TEST_METHOD(List_Insert_Rand)
+{
+	// Inserting random values
+	IntSetList test(max_e, max_v);
+	for (i = 0; i < max_e; i++) {
+		test.insert(bigrand(max_v));
+	}
+}
+```
+
+#### 2) Sorting Correct
+
+제대로 값들이 sort 되는지 알아보기 위하여 다음과 같이 테스트를 진행하였다.
+기대값을 저장하는 expect 배열을 별도로 만들어서 같은 값을 insert 하고 C 에서 기본 
+라이브러리로 제공되는 sort() 함수를 이용하여 expect 배열을 sorting 하고 값을 비교하였다.
+
+```
+TEST_METHOD(List_Report_Desc)
+{
+	// Inserting values in descending order
+	IntSetList test(max_e, max_v);
+	j = 0;
+	for (i = max_e - 1; i >= 0; i--) {
+		test.insert(max_v - j);
+		expect[i] = max_v - j;
+		j++;
+	}
+
+	test.report(v);
+	std::sort(expect, expect + max_e);
+
+	// Comparing expected values and result values
+	for (i = 0; i < max_e; i++) {
+		if (expect[i] != v[i]) {
+			result_equal = false;
+			break;
+		}
+	}
+
+	Assert::AreEqual(true, result_equal);
+}
+
+TEST_METHOD(List_Report_Asce)
+{
+	// Inserting values in ascending order
+	IntSetList test(max_e, max_v);
+
+	for (i = 0; i < max_e; i++) {
+		test.insert(max_e + i);
+		expect[i] = max_e + i;
+	}
+
+	test.report(v);
+	std::sort(expect, expect + max_e);
+
+	// Comparing expected values and result values
+	for (i = 0; i < max_e; i++) {
+		if (expect[i] != v[i]) {
+			result_equal = false;
+			break;
+		}
+	}
+
+	Assert::AreEqual(true, result_equal);
+}
+
+TEST_METHOD(List_Report_Rand)
+{
+	j = 0;
+	// Inserting random values
+	IntSetList test(max_e, max_v);
+	for (i = 0; i < max_e; i++) {
+		temp = bigrand(max_v);
+		test.insert(temp);
+
+		if (dupCheck(temp, max_e, expect)) continue;
+
+		expect[j++] = temp;
+	}
+
+	test.report(v);
+	std::sort(expect, expect + j);
+
+	// Comparing expected values and result values
+	for (i = 0; i < j; i++) {
+		if (expect[i] != v[i]) {
+			result_equal = false;
+			break;
+		}
+	}
+
+	Assert::AreEqual(true, result_equal);
+}
+```
+
+특별히, 랜덤 값을 expect 배열에 insert 할 때, 값의 중복 여부를 체크하는 dubCheck() 함수를
+따로 만들어서 매번 값 입력시 중복 체크를 할 수 있도록 만들었다.
+배열 expect 와 v 를 Sorting 한 후에는 for loop 을 이용하여 서로의 값을 비교한다. 이 과정에서 
+값이 다를 경우 for loop 을 break 로 종료하게 된다.
+
 
 ## IntSetBST  
 
