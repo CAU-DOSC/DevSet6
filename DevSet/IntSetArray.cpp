@@ -27,7 +27,7 @@ public:
 		arr = new bool[max_value];
 
 		//initialize arr
-		for (int i = 0; i < max_value + 1; i++) {
+		for (int i = 0; i < max_value; i++) {
 			arr[i] = false;
 		}
 			

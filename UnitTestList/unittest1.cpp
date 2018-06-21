@@ -99,19 +99,23 @@ namespace UnitTestList
 
 		TEST_METHOD(List_Report_Rand)
 		{
+			j = 0;
 			// Inserting random values
 			IntSetList test(max_e, max_v);
 			for (i = 0; i < max_e; i++) {
 				temp = bigrand(max_v);
 				test.insert(temp);
-				expect[i] = temp;
+
+				if (dupCheck(temp, max_e, expect)) continue;
+
+				expect[j++] = temp;
 			}
 
 			test.report(v);
-			std::sort(expect, expect + max_e);
+			std::sort(expect, expect + j);
 
 			// Comparing expected values and result values
-			for (i = 0; i < max_e; i++) {
+			for (i = 0; i < j; i++) {
 				if (expect[i] != v[i]) {
 					result_equal = false;
 					break;

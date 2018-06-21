@@ -24,3 +24,11 @@ void int_to_bitarray(int num) {
 		cout << *iter;
 	cout << endl;
 }
+
+bool dupCheck(int target, int max_e, int *expect) {
+	for (int i = 0; i < max_e; i++) {
+		if (expect[i] == target) return true;
+	}
+
+	return false;
+}

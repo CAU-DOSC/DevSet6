@@ -4,29 +4,6 @@
 #include "IntSetBitVec.cpp"
 #include "IntSetBins.cpp"
 
-bool dupCheck(int target, int max_e, int *expect) {
-	/*
-	Duplication check implemented based on binary search which takes o(log n) on average
-	*/
-
-	int low = 0;
-	int mid = 0;
-	int high = max_e - 1;
-
-	int midVal;
-
-	while (low <= high) {
-		mid = (low + high) >> 1;
-		midVal = expect[mid];
-
-		if (midVal < target) low = mid + 1;
-		else if (midVal > target) high = mid - 1;
-		else return true;
-	}
-
-	return false;
-}
-
 int main(void) {
 	/*
 	int max_v = 1000000;
@@ -89,24 +66,37 @@ int main(void) {
 	int *expect = new int[max_e]; // Expected values;
 	bool result_equal = true;
 
+	
+
+
 	int i, j, temp=0;
 
+	for (i = 0; i < max_e; i++) {
+		expect[i] = 0;
+	}
 	// Inserting random values
+	j = 0;
 	IntSetArray test(max_e, max_v);
-	for (i = test.size(); i < max_e; i++) {
+	for (i = 0; i < max_e; i++) {
 		temp = bigrand(max_v);
 		test.insert(temp);
-		expect[i] = temp;
+
+		if (dupCheck(temp, max_e, expect)) {
+			continue;
+		}
+		expect[j++] = temp;
 	}
 
+	cout << test.size() << ", " << j << endl;
+
 	test.report(v);
-	std::sort(expect, expect + max_e);
+	std::sort(expect, expect + j);
 
 	// Comparing expected values and result values
-	for (i = 0; i < max_e; i++) {
+	for (i = 0; i < j; i++) {
 		cout << "[" << i << "]" << expect[i] << ", " << v[i] << endl;
 		if (expect[i] != v[i]) {
-			cout << "[" << i << "]" << expect[i+1] << ", " << v[i+1] << endl;
+			//cout << "[" << i << "]" << expect[i+1] << ", " << v[i+1] << endl;
 			result_equal = false;
 			break;
 		}

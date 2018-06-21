@@ -10,30 +10,6 @@ namespace UnitTestArray
 {		
 	TEST_CLASS(UnitTest1)
 	{
-	private:
-		bool dupCheck(int target) {
-			/*
-			Duplication check implemented based on binary search which takes o(log n) on average
-			*/
-
-			int low = 0;
-			int mid = 0;
-			int high = max_e - 1;
-
-			int midVal;
-
-			while (low <= high) {
-				mid = (low + high) >> 1;
-				midVal = expect[mid];
-
-				if (midVal < target) low = mid + 1;
-				else if (midVal > target) high = mid - 1;
-				else return true;
-			}
-
-			return false;
-		}
-
 
 	public:
 		int max_v = 1000000;
@@ -124,24 +100,23 @@ namespace UnitTestArray
 
 		TEST_METHOD(Array_Report_Rand)
 		{
+			j = 0;
 			// Inserting random values
 			IntSetArray test(max_e, max_v);
-			j = 0;
-			for (i = test.size(); i < max_e; i++) {
+			for (i = 0; i < max_e; i++) {
 				temp = bigrand(max_v);
 				test.insert(temp);
-				if (dupCheck(temp)) {
-					continue;
-				}
-				expect[i] = temp;
-				j++;
+
+				if (dupCheck(temp, max_e, expect)) continue;
+
+				expect[j++] = temp;
 			}
 
 			test.report(v);
-			std::sort(expect, expect + max_e);
+			std::sort(expect, expect + j);
 
 			// Comparing expected values and result values
-			for (i = 0; i < max_e; i++) {
+			for (i = 0; i < j; i++) {
 				if (expect[i] != v[i]) {
 					result_equal = false;
 					break;
