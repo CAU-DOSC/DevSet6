@@ -24,7 +24,7 @@ namespace UnitTestList
 			// Inserting values in descending order
 			IntSetList test(max_e, max_v);
 			j = 0;
-			for (i = max_e - 1; i >= 0; i++) {
+			for (i = max_e - 1; i >= 0; i--) {
 				test.insert(max_v - j);
 				j++;
 			}
@@ -34,7 +34,7 @@ namespace UnitTestList
 		{
 			// Inserting values in ascending order
 			IntSetList test(max_e, max_v);
-			for (i = 0; i < max_e + 1; i++) {
+			for (i = 0; i < max_e; i++) {
 				test.insert(max_e + i);
 			}
 		}
@@ -43,7 +43,7 @@ namespace UnitTestList
 		{
 			// Inserting random values
 			IntSetList test(max_e, max_v);
-			for (i = 0; i < max_e + 1; i++) {
+			for (i = 0; i < max_e; i++) {
 				test.insert(bigrand(max_v));
 			}
 		}
@@ -53,7 +53,7 @@ namespace UnitTestList
 			// Inserting values in descending order
 			IntSetList test(max_e, max_v);
 			j = 0;
-			for (i = max_e - 1; i >= 0; i++) {
+			for (i = max_e - 1; i >= 0; i--) {
 				test.insert(max_v - j);
 				expect[i] = max_v - j;
 				j++;
@@ -63,7 +63,7 @@ namespace UnitTestList
 			std::sort(expect, expect + max_e);
 
 			// Comparing expected values and result values
-			for (i = 0; i < max_e + 1; i++) {
+			for (i = 0; i < max_e; i++) {
 				if (expect[i] != v[i]) {
 					result_equal = false;
 					break;
@@ -78,7 +78,7 @@ namespace UnitTestList
 			// Inserting values in ascending order
 			IntSetList test(max_e, max_v);
 
-			for (i = 0; i < max_e + 1; i++) {
+			for (i = 0; i < max_e; i++) {
 				test.insert(max_e + i);
 				expect[i] = max_e + i;
 			}
@@ -87,7 +87,7 @@ namespace UnitTestList
 			std::sort(expect, expect + max_e);
 
 			// Comparing expected values and result values
-			for (i = 0; i < max_e + 1; i++) {
+			for (i = 0; i < max_e; i++) {
 				if (expect[i] != v[i]) {
 					result_equal = false;
 					break;
@@ -101,7 +101,7 @@ namespace UnitTestList
 		{
 			// Inserting random values
 			IntSetList test(max_e, max_v);
-			for (i = 0; i < max_e + 1; i++) {
+			for (i = 0; i < max_e; i++) {
 				temp = bigrand(max_v);
 				test.insert(temp);
 				expect[i] = temp;
@@ -111,7 +111,7 @@ namespace UnitTestList
 			std::sort(expect, expect + max_e);
 
 			// Comparing expected values and result values
-			for (i = 0; i < max_e + 1; i++) {
+			for (i = 0; i < max_e; i++) {
 				if (expect[i] != v[i]) {
 					result_equal = false;
 					break;
