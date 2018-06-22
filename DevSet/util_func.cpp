@@ -1,5 +1,4 @@
-#include <cstdlib>
-#include <vector>
+#include "util_func.h"
 
 int bigrand(int v) {
 	int r = 0;
@@ -22,6 +21,14 @@ void int_to_bitarray(int num) {
 		i >>= 1;
 	}
 	for (std::vector<int>::reverse_iterator iter = v.rbegin(); iter != v.rend(); iter++)
-		printf("%d", *iter);
-	printf("\n");
+		cout << *iter;
+	cout << endl;
+}
+
+bool dupCheck(int target, int max_e, int *expect) {
+	for (int i = 0; i < max_e; i++) {
+		if (expect[i] == target) return true;
+	}
+
+	return false;
 }

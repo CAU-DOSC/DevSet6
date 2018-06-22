@@ -1,4 +1,363 @@
 # DevSet06
+-------------
+## IntSetArray
+
+### 1. Sorting
+
+기존의 Array에 for loop 을 이용하여 값을 추가할 경우에 Insert 시 매번 값의 중복여부를 
+체크하고, 값이 들어갈 위치를 찾고 더나아가 Shifting 을 하는 경우가 빈번히 발생한다. 
+이는 결과적으로 time complexity(시간 복잡도)의 증가를 유도하고 실제 execution time
+(실행 시간)의 증가를 초래한다.
+
+이러한 상황을 방지하기 위해, 우리 팀은 space complexity(공간 복잡도)와 time complexity
+(시간 복잡도) 사이에서 타협을 보아야 했다. 우리 팀이 구현한 IntSetArray 의 경우 결과적으로 
+높은 space complexity 를 가지지만 동시에 time complexity 를 줄임으로서 더욱 효과적이고
+빠른 Sorting 을 구현할 수 있었다. 
+
+```
+arr = new bool[max_value];
+```
+가장 큰 max_value 값의 크기를 가진 boolean 형 arr 배열을 선언한다. 이 경우에 sparsity problem
+(희소 문제)가 발생하지만, time complexity 와 execution time 을 실질적으로 감소시키는데에는
+매우 효과적으로 작용한다.
+
+```
+void insert(int num) {
+	/*
+	Checking whether incoming number 'n' is already in array
+	This process takes only the time complexity of O(1),
+	*/
+	if (!arr[num]){	
+		arr[num] = true;
+		n++;
+	}
+}
+```
+
+값을 insert 할 때, 값의 중복 여부를 체크하기 위하여 배열을 처음부터 훑어볼 필요없이, 
+O(1) 의 time complexity 로 중복 여부를 체크하고 별도의 값 shift 없이 O(1) 의 time complexity
+로 값을 insert 할 수 있다. 값의 중복 여부는 num 값을 배열의 인덱스로 사용하여 접근한 뒤, 
+값이 false 인 경우 추가하고 그렇지 않은 경우에는 skip 하는 과정으로 진행한다.
+
+```
+void report(int *v) {
+	int j = 0;
+	for (int i = 0; i < get_maxval() + 1; i++) {
+		if (arr[i]) v[j++] = i;
+	}
+}
+```
+
+기존 arr 배열에 있는 값을 sorting 하는 알고리즘은 위와 같이 간단하다. 단순히 O(n + k) (k: 
+max_value) 만큼 for loop 을 통해 배열을 훑어 가면서 값이 true 일 경우에 배열 v 에 값을
+하나씩 넣어주는 과정으로 진행한다.
+
+### 2. Algorithm Test
+
+![default](/img/UnitTestArray.PNG)
+
+알고리즘의 유효성 테스트는 다음과 같이 크게 두가지 부분으로 나누어 진행하였다.
+
+#### 1) Insert Time Test
+
+오름차순, 내림차순, 랜덤 값을 Insert 하는 방식으로 테스트를 진행하였다.
+
+```
+TEST_METHOD(Array_Insert_Desc)
+{
+	// Inserting values in descending order
+	IntSetArray test(max_e, max_v);
+	j = 0;
+	for (i = max_e - 1; i >= 0; i--) {
+		test.insert(max_v - j);
+		j++;
+	}
+}
+
+TEST_METHOD(Array_Insert_Asce)
+{
+	// Inserting values in ascending order
+	IntSetArray test(max_e, max_v);
+	for (i = 0; i < max_e + 1; i++) {
+		test.insert(max_e + i);
+	}
+}
+
+TEST_METHOD(Array_Insert_Rand)
+{
+	// Inserting random values
+	IntSetArray test(max_e, max_v);
+	for (i = 0; i < max_e + 1; i++) {
+		test.insert(bigrand(max_v));
+	}
+}
+```
+
+### 2) Sorting Correct
+
+제대로 값들이 sort 되는지 알아보기 위하여 다음과 같이 테스트를 진행하였다.
+기대값을 저장하는 expect 배열을 별도로 만들어서 같은 값을 insert 하고 C 에서 기본 
+라이브러리로 제공되는 sort() 함수를 이용하여 expect 배열을 sorting 하고 값을 비교하였다.
+
+```
+TEST_METHOD(Array_Report_Desc)
+{
+	// Inserting values in descending order
+	IntSetArray test(max_e, max_v);
+	j = 0;
+	for (i = max_e - 1; i >= 0; i--) {
+		test.insert(max_v - j);
+		expect[i] = max_v - j;
+		j++;
+	}
+
+	test.report(v);
+	std::sort(expect, expect + max_e);
+
+	// Comparing expected values and result values
+	for (i = 0; i < max_e; i++) {
+		if (expect[i] != v[i]) {
+			result_equal = false;
+			break;
+		}
+	}
+
+	Assert::AreEqual(true, result_equal);
+}
+
+TEST_METHOD(Array_Report_Asce)
+{
+	// Inserting values in ascending order
+	IntSetArray test(max_e, max_v);
+
+	for (i = 0; i < max_e; i++) {
+		test.insert(max_e + i);
+		expect[i] = max_e + i;
+	}
+
+	test.report(v);
+	std::sort(expect, expect + max_e);
+
+	// Comparing expected values and result values
+	for (i = 0; i < max_e; i++) {
+		if (expect[i] != v[i]) {
+			result_equal = false;
+			break;
+		}
+	}
+
+	Assert::AreEqual(true, result_equal);
+}
+
+TEST_METHOD(Array_Report_Rand)
+{
+	j = 0;
+	// Inserting random values
+	IntSetArray test(max_e, max_v);
+	for (i = 0; i < max_e; i++) {
+		temp = bigrand(max_v);
+		test.insert(temp);
+
+		if (dupCheck(temp, max_e, expect)) continue;
+
+		expect[j++] = temp;
+	}
+
+	test.report(v);
+	std::sort(expect, expect + j);
+
+	// Comparing expected values and result values
+	for (i = 0; i < j; i++) {
+		if (expect[i] != v[i]) {
+			result_equal = false;
+			break;
+		}
+	}
+
+	Assert::AreEqual(true, result_equal);
+}
+```
+
+특별히, 랜덤 값을 expect 배열에 insert 할 때, 값의 중복 여부를 체크하는 dubCheck() 함수를
+따로 만들어서 매번 값 입력시 중복 체크를 할 수 있도록 만들었다.
+배열 expect 와 v 를 Sorting 한 후에는 for loop 을 이용하여 서로의 값을 비교한다. 이 과정에서 
+값이 다를 경우 for loop 을 break 로 종료하게 된다.
+
+## IntSetList
+
+### 1. Sorting
+
+IntSetList 는 자료구조 Linked List 를 사용하여 구현하였다. 사용된 자료구조는 다음과 같다.
+
+```
+struct node {
+	int key;
+	struct node *next;
+};
+
+struct node *root;
+```
+
+Linked List 에서는 값을 insert 할 위치를 찾기 위해서 root node 부터 iterator 를 이용하여 
+순차적으로 값에 접근하여 insert 값과 값을 비교하여야 한다. 이 과정에서 소요되는 time 
+complexity 는 O(n^2) 이다. 반면에 space complexity 의 경우, insert 되는 값의 개수 n 만큼의 
+O(n) 만큼이 소요된다. 
+
+```
+void list_insert(int num) {
+	for (struct node *iter = root; iter; iter = iter->next) {
+		struct node *next_node = iter->next;
+		// find its position to add
+		if (!next_node || num < next_node->key) {
+			struct node *new_node = new struct node;
+			new_node->key = num;
+			iter->next = new_node;
+			new_node->next = next_node;
+			return;
+		}
+		// if num is in list
+		else if (next_node->key == num) {
+			n--;
+			return;
+		}
+	}
+}
+```
+기존 Linked List 에 있는 값을 sorting 하는 알고리즘은 다음과 같이 간단하다. 단순히 
+O(n) 만큼 iterator 를 통해 리스르틀 훑어 가면서 배열 v 에 값을 하나씩 넣어주는 과정으로 
+진행한다.
+
+### 2. Algorithm Test
+
+![default](/img/UnitTestList.PNG)
+
+알고리즘의 유효성 테스트는 다음과 같이 크게 두가지 부분으로 나누어 진행하였다.
+
+####1) Insert Time Test
+
+오름차순, 내림차순, 랜덤 값을 Insert 하는 방식으로 테스트를 진행하였다.
+
+```
+TEST_METHOD(List_Insert_Desc)
+{
+	// Inserting values in descending order
+	IntSetList test(max_e, max_v);
+	j = 0;
+	for (i = max_e - 1; i >= 0; i--) {
+		test.insert(max_v - j);
+		j++;
+	}
+}
+
+TEST_METHOD(List_Insert_Asce)
+{
+	// Inserting values in ascending order
+	IntSetList test(max_e, max_v);
+	for (i = 0; i < max_e; i++) {
+		test.insert(max_e + i);
+	}
+}
+
+TEST_METHOD(List_Insert_Rand)
+{
+	// Inserting random values
+	IntSetList test(max_e, max_v);
+	for (i = 0; i < max_e; i++) {
+		test.insert(bigrand(max_v));
+	}
+}
+```
+
+#### 2) Sorting Correct
+
+제대로 값들이 sort 되는지 알아보기 위하여 다음과 같이 테스트를 진행하였다.
+기대값을 저장하는 expect 배열을 별도로 만들어서 같은 값을 insert 하고 C 에서 기본 
+라이브러리로 제공되는 sort() 함수를 이용하여 expect 배열을 sorting 하고 값을 비교하였다.
+
+```
+TEST_METHOD(List_Report_Desc)
+{
+	// Inserting values in descending order
+	IntSetList test(max_e, max_v);
+	j = 0;
+	for (i = max_e - 1; i >= 0; i--) {
+		test.insert(max_v - j);
+		expect[i] = max_v - j;
+		j++;
+	}
+
+	test.report(v);
+	std::sort(expect, expect + max_e);
+
+	// Comparing expected values and result values
+	for (i = 0; i < max_e; i++) {
+		if (expect[i] != v[i]) {
+			result_equal = false;
+			break;
+		}
+	}
+
+	Assert::AreEqual(true, result_equal);
+}
+
+TEST_METHOD(List_Report_Asce)
+{
+	// Inserting values in ascending order
+	IntSetList test(max_e, max_v);
+
+	for (i = 0; i < max_e; i++) {
+		test.insert(max_e + i);
+		expect[i] = max_e + i;
+	}
+
+	test.report(v);
+	std::sort(expect, expect + max_e);
+
+	// Comparing expected values and result values
+	for (i = 0; i < max_e; i++) {
+		if (expect[i] != v[i]) {
+			result_equal = false;
+			break;
+		}
+	}
+
+	Assert::AreEqual(true, result_equal);
+}
+
+TEST_METHOD(List_Report_Rand)
+{
+	j = 0;
+	// Inserting random values
+	IntSetList test(max_e, max_v);
+	for (i = 0; i < max_e; i++) {
+		temp = bigrand(max_v);
+		test.insert(temp);
+
+		if (dupCheck(temp, max_e, expect)) continue;
+
+		expect[j++] = temp;
+	}
+
+	test.report(v);
+	std::sort(expect, expect + j);
+
+	// Comparing expected values and result values
+	for (i = 0; i < j; i++) {
+		if (expect[i] != v[i]) {
+			result_equal = false;
+			break;
+		}
+	}
+
+	Assert::AreEqual(true, result_equal);
+}
+```
+
+특별히, 랜덤 값을 expect 배열에 insert 할 때, 값의 중복 여부를 체크하는 dubCheck() 함수를
+따로 만들어서 매번 값 입력시 중복 체크를 할 수 있도록 만들었다.
+배열 expect 와 v 를 Sorting 한 후에는 for loop 을 이용하여 서로의 값을 비교한다. 이 과정에서 
+값이 다를 경우 for loop 을 break 로 종료하게 된다.
+
 
 ## IntSetBST  
 
